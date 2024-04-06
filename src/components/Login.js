@@ -1,16 +1,22 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validation";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword ,updateProfile   } from "firebase/auth";
 import {auth} from "../utils/firebase"
+import {useNavigate} from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
   };
+
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
@@ -25,7 +31,7 @@ const Login = () => {
       signInWithEmailAndPassword(auth, email.current.value,password.current.value)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log("singed In success",user)
+        navigate("/browse")
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -41,7 +47,20 @@ const Login = () => {
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log("signUp Success", user);
+          updateProfile(auth.currentUser, {
+            displayName: name.current.value, photoURL: ""
+          }).then(() => {
+            const {uid , email , displayName} = auth.currentUser;
+            dispatch(addUser({
+              uid:uid,
+              email:email,
+              displayName:displayName
+            }))
+            navigate("/browse")
+          }).catch((error) => {
+            setErrorMessage(error)
+          });
+         
         })
         .catch((error) => {
           const errorCode = error.code;
