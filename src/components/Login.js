@@ -1,12 +1,36 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData } from "../utils/validation";
 
 const Login = () => {
-  const [isSignInForm , setIsSignInForm] =  useState(true);
-  const toggleSignInForm = ()=>{
-    setIsSignInForm(!isSignInForm)
-  }
+  const [isSignInForm, setIsSignInForm] = useState(true);
+  const [errorMessage,setErrorMessage] = useState("");
 
+  const toggleSignInForm = () => {
+    setIsSignInForm(!isSignInForm);
+  };
+  const email = useRef(null);
+  const password = useRef(null);
+  const name = useRef(null);
+
+  const handleSubmit = () => {
+    // check validation 
+    if(isSignInForm){
+      const message = checkValidData(email.current.value,password.current.value)
+      setErrorMessage(message);
+      console.log(email.current.value);
+      console.log(password.current.value);
+      console.log(message)
+    }else{
+      const message = checkValidData(email.current.value,password.current.value,name.current.value)
+      setErrorMessage(message);
+      console.log(email.current.value);
+      console.log(password.current.value);
+      console.log(name.current.value);
+      console.log(message)
+    }
+   
+  };
   return (
     <div>
       <Header />
@@ -16,32 +40,44 @@ const Login = () => {
           alt="banner"
         />
       </div>
-      <form className="w-3/12 absolute bg-black mx-auto right-0 left-0 my-36 p-12 text-white bg-opacity-80">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="w-3/12 absolute bg-black mx-auto right-0 left-0 my-36 p-12 text-white bg-opacity-80"
+      >
         <h1 className="font-bold text-3xl py-4">
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
-        {
-          !isSignInForm && <input
-          type="text"
-          placeholder="Full Name"
-          className="w-full p-4 my-4 rounded-lg bg-gray-700"
-        />
-        }
+        {!isSignInForm && (
+          <input
+            ref={name}
+            type="text"
+            placeholder="Full Name"
+            className="w-full p-4 my-4 rounded-lg bg-gray-700"
+          />
+        )}
         <input
+          ref={email}
           type="text"
           placeholder="Email Address"
           className="w-full p-4 my-4 rounded-lg bg-gray-700"
         />
         <input
+          ref={password}
           type="password"
           placeholder="Password"
           className="w-full p-4 my-4 rounded-lg bg-gray-700"
         />
-        <button className="w-full bg-red-700 p-4 rounded-lg my-6">
+        <p className="text-red-500 font-bold text-xl">{errorMessage}</p>
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-red-700 p-4 rounded-lg my-6"
+        >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <p className="p-4 cursor-pointer" onClick={toggleSignInForm}>
-          { isSignInForm ? "New To Netflix? Sign Up Now" : "Already Registered? Sign In Now "}
+          {isSignInForm
+            ? "New To Netflix? Sign Up Now"
+            : "Already Registered? Sign In Now "}
         </p>
       </form>
     </div>
