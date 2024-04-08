@@ -11,7 +11,7 @@ const VideoBackground = ({ movieId }) => {
       className="w-screen aspect-video overflow-y:hidden"
         src={`https://www.youtube.com/embed/${trailer?.key}?si=Hhf4MIzzxbek0Dud`+"&autoplay=1&mute=1"}
         title="YouTube video player"
-        autoplay="1"
+        autoPlay="1"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
       ></iframe>
