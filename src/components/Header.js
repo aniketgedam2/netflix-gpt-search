@@ -11,6 +11,7 @@ const Header = () => {
   
   const navigate = useNavigate();
   const user = useSelector(store => store.user);
+  const showGptSearch = useSelector(store=>store.gpt.showGptSearch)
   const gptSearchShow = useSelector((store)=>store.gpt.showGptSearch);
   const dispatch = useDispatch();
   const handleSignOut = () => {
@@ -56,7 +57,7 @@ const Header = () => {
               </option>
             ))}
           </select>}
-          <button className='mt-2 px-4 py-2 bg-purple-500 rounded-lg' onClick={handleToggle}>Gpt Search</button>
+          <button className='mt-2 px-4 py-2 bg-purple-500 rounded-lg' onClick={handleToggle}>{showGptSearch ? "Homepage":"Gpt Search"}</button>
           <p className="p-2 font-bold">{user.displayName}</p>
           <img
             className="w-10 h-10 m-1 cursor-pointer rounded-lg"
