@@ -43,8 +43,8 @@ const Header = () => {
   }, [])
 
   return (
-    <div className="absolute px-8 py-2 bg-gradient-to-b from-black w-full flex justify-between z-50">
-      <img className="w-44" src={LOGO}
+    <div className="absolute px-8 py-2 bg-gradient-to-b from-black w-full flex flex-col md:flex-row justify-between z-50">
+      <img className="w-44 mx-auto md:mx-0" src={LOGO}
         alt='logo'
       />
       {
@@ -58,13 +58,12 @@ const Header = () => {
             ))}
           </select>}
           <button className='mt-2 px-4 py-2 bg-purple-500 rounded-lg' onClick={handleToggle}>{showGptSearch ? "Homepage":"Gpt Search"}</button>
-          <p className="p-2 font-bold">{user.displayName}</p>
           <img
-            className="w-10 h-10 m-1 cursor-pointer rounded-lg"
+            className="hidden md:block w-10 h-10 m-1 cursor-pointer rounded-lg"
             src={user.photoURL}
             alt="iconuser"
           />
-          <button className="bg-red-600 p-1 rounded-xl font-bold" onClick={handleSignOut}>Sign Out</button>
+          <button className="bg-red-600 mt-2 px-4 py-2 rounded-xl font-bold" onClick={handleSignOut}>Sign Out</button>
         </div>
       }
 
